@@ -3,6 +3,7 @@ from pythonpddl import pddl
 import os
 import optparse
 import copy
+import math
 
 # We get the parameters
 def parse_options():
@@ -15,6 +16,8 @@ def parse_options():
     parser.add_option('-p', '--problem-file', action='store', dest='problem_file', help='problem file')
     parser.add_option('-d', '--domain-file', action='store', dest='domain_file', help='domain file')
     parser.add_option('-g', '--goals-file', action='store', dest='goals_file', help='goals file')
+
+    parser.add_option('-f', '--no-force-agent-order-after-split', action='store_false', dest='force_agent_order_after_split', help='don\'t force agent order after split')
 
     options, args = parser.parse_args()
     return options
@@ -33,7 +36,10 @@ def get_goals(file):
 
 
 def modify_name(i, name):
-    return "g" + str(i) + "_" + name
+    if isinstance(i, str):
+        return "g" + i + "_" + name
+    else:
+        return "g" + str(i) + "_" + name
 
 def main():
     options = parse_options()
@@ -47,7 +53,9 @@ def main():
 
     assert(options.plan_type == 'shortest')
 
-    cost_factor = 1000000
+    cost_factor = 10**6
+
+    force_agent_order_after_split = options.force_agent_order_after_split
 
 
 
@@ -77,6 +85,11 @@ def main():
     # Add the (split) predicate
     new_preds.append(pddl.Predicate("split", pddl.TypedArgList([])))
     new_preds.append(pddl.Predicate("unsplit", pddl.TypedArgList([])))
+
+    if force_agent_order_after_split:
+        # Add the (done_i) predicates
+        for i,g in enumerate(goals):
+                new_preds.append(pddl.Predicate(modify_name(i, "done___"), pddl.TypedArgList([])))
     # Duplicate each predicate for each goal
     for pred in dom.predicates:            
         for i,g in enumerate(goals):
@@ -109,6 +122,22 @@ def main():
                     [pddl.Formula([pddl.Predicate("unsplit", pddl.TypedArgList([]))],"not"), pddl.Formula([pddl.Predicate("split", pddl.TypedArgList([]))])]
                 )
         new_acts.append(do_split)
+
+    if force_agent_order_after_split:
+        # Create the "mark_done_i" actions
+        for i,g in enumerate(goals):
+            goal_facts = []
+            for pddl_goal_fact in pddl_goals[i]:
+                mod_goal_fact = copy.deepcopy(pddl_goal_fact)
+                mod_goal_fact.name = modify_name(i, mod_goal_fact.name)
+                goal_facts.append(mod_goal_fact)
+            do_split = pddl.Action(
+                    "mark-done-g"+str(i),
+                    pddl.TypedArgList([]),
+                    pddl.Formula([pddl.Formula([pddl.Predicate("split", pddl.TypedArgList([]))])] + goal_facts, "and"),
+                    [pddl.Formula([pddl.Predicate(modify_name(i, "done___"), pddl.TypedArgList([]))])]
+                )
+            new_acts.append(do_split)
     
 
 
@@ -116,7 +145,7 @@ def main():
 
         # Create the "joint" version of each action
         new_act = pddl.Action(
-                modify_name(999, act.name), 
+                modify_name("GLOBAL", act.name), 
                 act.parameters, 
                 copy.deepcopy(act.pre), 
                 copy.deepcopy(act.eff)
@@ -170,13 +199,15 @@ def main():
             if new_act.pre.op is None:
                 new_act.pre.op = "and"
             new_act.pre.subformulas.append(pddl.Predicate("split", pddl.TypedArgList([])))
+            if force_agent_order_after_split and i > 0:
+                new_act.pre.subformulas.append(pddl.Predicate(modify_name(i-1, "done___"), pddl.TypedArgList([])))
             
             for eff_part in new_act.eff:                
                 if eff_part.is_numeric:                    
                     assert(eff_part.op == "increase")                    
                     assert(eff_part.subformulas[0].name == "total-cost")
                     # Split action costs the weight of the relevant goal, multiplied by a large cost factor                   
-                    eff_part.subformulas[1] = pddl.ConstantNumber(cost_factor * eff_part.subformulas[1].val * float(gweights[i]))
+                    eff_part.subformulas[1] = pddl.ConstantNumber(round(cost_factor * eff_part.subformulas[1].val * float(gweights[i]) / len(goals) ,0))
                 else:
                     effs = eff_part.get_predicates(True) + eff_part.get_predicates(False)
                     for eff in effs:
@@ -192,12 +223,15 @@ def main():
     )
     
     for init_f in prob.initialstate:
-        assert(init_f.get_predicates(False) == [])
-        for i,g in enumerate(goals):
-            new_init_f = copy.deepcopy(init_f)            
-            for pred in new_init_f.get_predicates(True):
-                pred.name = modify_name(i, pred.name)
-            new_initial_state.append(new_init_f)
+        if isinstance(init_f, pddl.FExpression):
+            new_initial_state.append(init_f)
+        else:
+            assert(init_f.get_predicates(False) == [])
+            for i,g in enumerate(goals):
+                new_init_f = copy.deepcopy(init_f)            
+                for pred in new_init_f.get_predicates(True):
+                    pred.name = modify_name(i, pred.name)
+                new_initial_state.append(new_init_f)
     prob.initialstate = new_initial_state
         
     goal_facts = []
