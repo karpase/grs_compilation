@@ -243,6 +243,7 @@ def main():
                     assert(eff_part.subformulas[0].name == "total-cost")
                     if after_split_max:
                         assert(eff_part.subformulas[1].val == 1.0)
+                        assert(float(gweights[i]) == 1.0)
                         if i == 0:
                             eff_part.subformulas[1] = pddl.ConstantNumber(cost_factor)
                         else:
