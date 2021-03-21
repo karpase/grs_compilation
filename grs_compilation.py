@@ -17,7 +17,7 @@ def parse_options():
     parser.add_option('-d', '--domain-file', action='store', dest='domain_file', help='domain file')
     parser.add_option('-g', '--goals-file', action='store', dest='goals_file', help='goals file')
 
-    parser.add_option('-f', '--no-force-agent-order-after-split', action='store_false', dest='force_agent_order_after_split', help='don\'t force agent order after split')
+    parser.add_option('-f', '--no-force-agent-order-after-split', action='store_false', dest='force_agent_order_after_split', help='don\'t force agent order after split', default=True)
     parser.add_option('-c', '--cost-factor', action='store', dest='cost_factor', help='cost factor', default=10**6, type="float")
 
     options, args = parser.parse_args()
@@ -45,18 +45,26 @@ def modify_name(i, name):
 def main():
     options = parse_options()
 
-    if options.state == 'centroid':
-        split_on_goals = False
-    elif options.state == 'medoid':
-        split_on_goals = True
-    else:
-        raise Exception("Don't know how to handle state ", options.state)        
-
-    assert(options.plan_type == 'shortest')
-
     cost_factor = options.cost_factor
 
     force_agent_order_after_split = options.force_agent_order_after_split
+
+    if options.state == 'centroid' or options.state == 'minimum-covering':
+        split_on_goals = False
+    elif options.state == 'medoid' or options.state == 'minimum-covering-m':
+        split_on_goals = True        
+    else:
+        raise Exception("Don't know how to handle state ", options.state)        
+
+    
+    if options.state == 'minimum-covering' or options.state == 'minimum-covering-m':
+        after_split_max = True        
+    elif options.state == 'centroid' or options.state == 'medoid':
+        after_split_max = False
+
+    assert(options.plan_type == 'shortest')
+
+    assert(not (after_split_max and force_agent_order_after_split))
 
 
 
@@ -91,6 +99,12 @@ def main():
         # Add the (done_i) predicates
         for i,g in enumerate(goals):
                 new_preds.append(pddl.Predicate(modify_name(i, "done___"), pddl.TypedArgList([])))
+
+    if after_split_max:
+        # Add (turn_i) predicates
+        for i,g in enumerate(goals):
+                new_preds.append(pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([])))
+
     # Duplicate each predicate for each goal
     for pred in dom.predicates:            
         for i,g in enumerate(goals):
@@ -140,6 +154,24 @@ def main():
                 )
             new_acts.append(do_split)
     
+    if after_split_max:
+        # Create the "noop_i" actions
+        for i,g in enumerate(goals):
+            if i == 0:
+                cost = cost_factor
+            else:
+                cost = 0
+            noop = pddl.Action(
+                    "noop-g"+str(i),
+                    pddl.TypedArgList([]),
+                    pddl.Formula([pddl.Formula([pddl.Predicate("split", pddl.TypedArgList([]))]), pddl.Formula([pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([]))])], "and"),
+                    [pddl.Formula([pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([]))], "not"),
+                     pddl.Formula([pddl.Predicate(modify_name((i + 1) % len(goals), "turn___"), pddl.TypedArgList([]))]),
+                     pddl.Formula([pddl.FHead("total-cost", pddl.TypedArgList([])), pddl.ConstantNumber(cost)], "increase")
+                     ]
+                )
+            new_acts.append(noop)
+
 
 
     for act in dom.actions:
@@ -202,17 +234,29 @@ def main():
             new_act.pre.subformulas.append(pddl.Predicate("split", pddl.TypedArgList([])))
             if force_agent_order_after_split and i > 0:
                 new_act.pre.subformulas.append(pddl.Predicate(modify_name(i-1, "done___"), pddl.TypedArgList([])))
+            if after_split_max:
+                new_act.pre.subformulas.append(pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([])))
             
             for eff_part in new_act.eff:                
                 if eff_part.is_numeric:                    
                     assert(eff_part.op == "increase")                    
                     assert(eff_part.subformulas[0].name == "total-cost")
-                    # Split action costs the weight of the relevant goal, multiplied by a large cost factor                   
-                    eff_part.subformulas[1] = pddl.ConstantNumber(round(cost_factor * eff_part.subformulas[1].val * float(gweights[i]) / len(goals) ,0))
+                    if after_split_max:
+                        assert(eff_part.subformulas[1].val == 1.0)
+                        if i == 0:
+                            eff_part.subformulas[1] = pddl.ConstantNumber(cost_factor)
+                        else:
+                            eff_part.subformulas[1] = pddl.ConstantNumber(0)
+                    else:
+                        # Split action costs the weight of the relevant goal, multiplied by a large cost factor                                       
+                        eff_part.subformulas[1] = pddl.ConstantNumber(round(cost_factor * eff_part.subformulas[1].val * float(gweights[i]) / len(goals) ,0))
                 else:
                     effs = eff_part.get_predicates(True) + eff_part.get_predicates(False)
                     for eff in effs:
                         eff.name = modify_name(i, eff.name)
+            if after_split_max:
+                new_act.eff.append(pddl.Formula([pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([]))], "not"))
+                new_act.eff.append(pddl.Formula([pddl.Predicate(modify_name((i + 1) % len(goals), "turn___"), pddl.TypedArgList([]))]))
                         
 
     dom.actions = new_acts
@@ -222,6 +266,11 @@ def main():
     new_initial_state.append(
         pddl.Formula([pddl.Predicate("unsplit", pddl.TypedArgList([]))])
     )
+    if after_split_max:
+        new_initial_state.append(
+            pddl.Formula([pddl.Predicate(modify_name(0, "turn___"), pddl.TypedArgList([]))])
+        )
+
     
     for init_f in prob.initialstate:
         if isinstance(init_f, pddl.FExpression):
