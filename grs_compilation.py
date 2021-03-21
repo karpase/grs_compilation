@@ -18,6 +18,7 @@ def parse_options():
     parser.add_option('-g', '--goals-file', action='store', dest='goals_file', help='goals file')
 
     parser.add_option('-f', '--no-force-agent-order-after-split', action='store_false', dest='force_agent_order_after_split', help='don\'t force agent order after split')
+    parser.add_option('-c', '--cost-factor', action='store', dest='cost_factor', help='cost factor', default=10**6, type="float")
 
     options, args = parser.parse_args()
     return options
@@ -53,7 +54,7 @@ def main():
 
     assert(options.plan_type == 'shortest')
 
-    cost_factor = 10**6
+    cost_factor = options.cost_factor
 
     force_agent_order_after_split = options.force_agent_order_after_split
 
