@@ -1,0 +1,222 @@
+from pythonpddl import pddl
+
+import os
+import optparse
+import copy
+
+# We get the parameters
+def parse_options():
+    parser = optparse.OptionParser()
+    parser.add_option('-s', '--state', action='store', dest='state',
+                      help='state we want to compute: centroid (default), minimum-covering, medoid, minimum-covering-m, r-centroid, r-minimum-covering, r-medoid, r-minimum-covering-m',
+                      default='centroid')
+    parser.add_option('-P', '--plan-type', action='store', dest='plan_type', help='metric to minimize in the plan that reaches the state: shortest (default), metric-related',
+                      default='shortest')
+    parser.add_option('-p', '--problem-file', action='store', dest='problem_file', help='problem file')
+    parser.add_option('-d', '--domain-file', action='store', dest='domain_file', help='domain file')
+    parser.add_option('-g', '--goals-file', action='store', dest='goals_file', help='goals file')
+
+    options, args = parser.parse_args()
+    return options
+
+def get_goals(file):
+    goal_file = open(file, 'r')
+    goals = []
+    probs = []
+    for line in goal_file:
+        data = line.split(' - ')
+        goal = data[0].split('|')
+        probs.append(data[1].strip())
+        goals.append(goal)
+    goal_file.close()
+    return goals, probs
+
+
+def modify_name(i, name):
+    return "g" + str(i) + "_" + name
+
+def main():
+    options = parse_options()
+
+    if options.state == 'centroid':
+        split_on_goals = False
+    elif options.state == 'medoid':
+        split_on_goals = True
+    else:
+        raise Exception("Don't know how to handle state ", options.state)        
+
+    assert(options.plan_type == 'shortest')
+
+    cost_factor = 1000000
+
+
+
+    print("domain", options.domain_file)
+    print("problem", options.problem_file)
+    print("goals", options.goals_file)
+
+    (dom,prob) = pddl.parseDomainAndProblem(options.domain_file, options.problem_file)
+    goals, gweights = get_goals(options.goals_file)    
+
+
+    pddl_goals = {}
+    for i, g in enumerate(goals):
+        pddl_goal = []
+        for gfact in g:        
+            assert(gfact[0] == "(")
+            assert(gfact[-1] == ")")
+            goal_parts = gfact[1:-1].split(" ")
+            arglist = []
+            for arg in goal_parts[1:]:
+                arglist.append(pddl.TypedArg(arg))
+            pddl_goal_fact = pddl.Predicate(goal_parts[0], pddl.TypedArgList(arglist))
+            pddl_goal.append(pddl_goal_fact)
+        pddl_goals[i] = pddl_goal
+
+    new_preds = []
+    # Add the (split) predicate
+    new_preds.append(pddl.Predicate("split", pddl.TypedArgList([])))
+    new_preds.append(pddl.Predicate("unsplit", pddl.TypedArgList([])))
+    # Duplicate each predicate for each goal
+    for pred in dom.predicates:            
+        for i,g in enumerate(goals):
+            new_pred = pddl.Predicate(modify_name(i, pred.name), pred.args)
+            new_preds.append(new_pred)
+    dom.predicates = new_preds
+
+
+    new_acts = []   
+    # Create the "do_split" actions
+    if split_on_goals:
+        for i,g in enumerate(goals):
+            goal_facts = []
+            for pddl_goal_fact in pddl_goals[i]:
+                mod_goal_fact = copy.deepcopy(pddl_goal_fact)
+                mod_goal_fact.name = modify_name(i, mod_goal_fact.name)
+                goal_facts.append(mod_goal_fact)
+            do_split = pddl.Action(
+                    "do-split-g"+str(i),
+                    pddl.TypedArgList([]),
+                    pddl.Formula([pddl.Formula([pddl.Predicate("unsplit", pddl.TypedArgList([]))])] + goal_facts, "and"),
+                    [pddl.Formula([pddl.Predicate("unsplit", pddl.TypedArgList([]))],"not"), pddl.Formula([pddl.Predicate("split", pddl.TypedArgList([]))])]
+                )
+            new_acts.append(do_split)
+    else:
+        do_split = pddl.Action(
+                    "do-split",
+                    pddl.TypedArgList([]),
+                    pddl.Formula([pddl.Formula([pddl.Predicate("unsplit", pddl.TypedArgList([]))])], "and"),
+                    [pddl.Formula([pddl.Predicate("unsplit", pddl.TypedArgList([]))],"not"), pddl.Formula([pddl.Predicate("split", pddl.TypedArgList([]))])]
+                )
+        new_acts.append(do_split)
+    
+
+
+    for act in dom.actions:
+
+        # Create the "joint" version of each action
+        new_act = pddl.Action(
+                modify_name(999, act.name), 
+                act.parameters, 
+                copy.deepcopy(act.pre), 
+                copy.deepcopy(act.eff)
+            )
+        new_acts.append(new_act)
+        if new_act.pre.op is None:
+            new_act.pre.op = "and"
+        assert(new_act.pre.op == "and") 
+        assert(new_act.pre.get_predicates(False) == [])
+        
+        preconds = new_act.pre.get_predicates(True)
+        new_pre = []
+        new_pre.append(pddl.Formula([pddl.Predicate("unsplit", pddl.TypedArgList([]))]))
+        for precond in preconds:
+            for i,g in enumerate(goals):
+                mod_precond = copy.deepcopy(precond)
+                mod_precond.name = modify_name(i, mod_precond.name)
+                new_pre.append(pddl.Formula([mod_precond]))  
+        new_act.pre = pddl.Formula(new_pre, "and")
+
+        # Joint action costs 1 (split action costs are multiplied by 1000000)
+        new_eff = []
+        for eff_part in new_act.eff:                
+            if not eff_part.is_numeric: 
+                for i,g in enumerate(goals):
+                    mod_eff_part = copy.deepcopy(eff_part)
+                    preds = mod_eff_part.get_predicates(True) + mod_eff_part.get_predicates(False)
+                    for p in preds:
+                        p.name = modify_name(i, p.name)
+                    new_eff.append(mod_eff_part)
+        new_eff.append(pddl.Formula([pddl.FHead("total-cost", pddl.TypedArgList([])), pddl.ConstantNumber(1)], "increase"))
+        new_act.eff = new_eff
+
+
+
+
+        for i,g in enumerate(goals):
+            #create the "split" version of each action
+            new_act = pddl.Action(
+                modify_name(i, act.name), 
+                act.parameters, 
+                copy.deepcopy(act.pre), 
+                copy.deepcopy(act.eff)
+            )
+            new_acts.append(new_act)
+
+            assert(new_act.pre.get_predicates(False) == [])
+            preconds = new_act.pre.get_predicates(True)
+            for precond in preconds:
+                precond.name = modify_name(i, precond.name)
+            if new_act.pre.op is None:
+                new_act.pre.op = "and"
+            new_act.pre.subformulas.append(pddl.Predicate("split", pddl.TypedArgList([])))
+            
+            for eff_part in new_act.eff:                
+                if eff_part.is_numeric:                    
+                    assert(eff_part.op == "increase")                    
+                    assert(eff_part.subformulas[0].name == "total-cost")
+                    # Split action costs the weight of the relevant goal, multiplied by a large cost factor                   
+                    eff_part.subformulas[1] = pddl.ConstantNumber(cost_factor * eff_part.subformulas[1].val * float(gweights[i]))
+                else:
+                    effs = eff_part.get_predicates(True) + eff_part.get_predicates(False)
+                    for eff in effs:
+                        eff.name = modify_name(i, eff.name)
+                        
+
+    dom.actions = new_acts
+
+
+    new_initial_state = []
+    new_initial_state.append(
+        pddl.Formula([pddl.Predicate("unsplit", pddl.TypedArgList([]))])
+    )
+    
+    for init_f in prob.initialstate:
+        assert(init_f.get_predicates(False) == [])
+        for i,g in enumerate(goals):
+            new_init_f = copy.deepcopy(init_f)            
+            for pred in new_init_f.get_predicates(True):
+                pred.name = modify_name(i, pred.name)
+            new_initial_state.append(new_init_f)
+    prob.initialstate = new_initial_state
+        
+    goal_facts = []
+    for i,g in enumerate(goals):
+        for pddl_goal_fact in pddl_goals[i]:
+            mod_goal_fact = copy.deepcopy(pddl_goal_fact)
+            mod_goal_fact.name = modify_name(i, mod_goal_fact.name)
+            goal_facts.append(mod_goal_fact)
+    prob.goal = pddl.Formula(goal_facts, "and")
+
+
+    nd = open('new_domain.pddl', 'w')
+    nd.write(dom.asPDDL())
+    nd.close()
+    
+    np = open('new_problem.pddl', 'w')
+    np.write(prob.asPDDL())
+    np.close()
+
+
+if __name__ == '__main__':
+    main()
