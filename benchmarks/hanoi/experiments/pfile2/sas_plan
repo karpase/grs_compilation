@@ -1,0 +1,4 @@
+(gglobal_move d1 d2 peg2)
+(gglobal_move d2 peg1 peg3)
+(gglobal_move d1 peg2 d2)
+; cost = 3 (unit cost)

@@ -1,0 +1,73 @@
+INFO     Running translator.
+INFO     translator stdin: None
+INFO     translator time limit: None
+INFO     translator memory limit: None
+INFO     translator command line string: /usr/bin/python3 /home/karpase/fd/builds/release/bin/translate/translate.py new_domain.pddl new_problem.pddl --sas-file output.sas
+Parsing...
+Parsing: [0.050s CPU, 0.052s wall-clock]
+Normalizing task... [0.010s CPU, 0.002s wall-clock]
+Instantiating...
+Generating Datalog program... [0.010s CPU, 0.017s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.010s CPU, 0.005s wall-clock]
+Preparing model... [0.120s CPU, 0.119s wall-clock]
+Generated 66 rules.
+Computing model... [0.250s CPU, 0.248s wall-clock]
+8894 relevant atoms
+14436 auxiliary atoms
+23330 final queue length
+23330 total queue pushes
+Completing instantiation... [0.020s CPU, 0.015s wall-clock]
+Instantiating: [0.410s CPU, 0.415s wall-clock]
+No relaxed solution! Generating unsolvable task...
+Translator variables: 1
+Translator derived variables: 0
+Translator facts: 2
+Translator goal facts: 1
+Translator mutex groups: 0
+Translator total mutex groups size: 0
+Translator operators: 0
+Translator axioms: 0
+Translator task size: 4
+Translator peak memory: 58704 KB
+Writing output... [0.000s CPU, 0.000s wall-clock]
+Done! [0.470s CPU, 0.470s wall-clock]
+translate exit code: 0
+
+INFO     Running search (release).
+INFO     search stdin: output.sas
+INFO     search time limit: None
+INFO     search memory limit: None
+INFO     search command line string: /home/karpase/fd/builds/release/bin/downward --search 'astar(lmcut())' --internal-plan-file sas_plan < output.sas
+[t=0s, 55888 KB] reading input...
+[t=0s, 55888 KB] done reading input!
+[t=0s, 56152 KB] Initializing landmark cut heuristic...
+[t=0s, 56152 KB] Building successor generator...done!
+[t=0s, 56152 KB] peak memory difference for successor generator creation: 0 KB
+[t=0s, 56152 KB] time for successor generation creation: 0s
+[t=0s, 56152 KB] Variables: 1
+[t=0s, 56152 KB] FactPairs: 2
+[t=0s, 56152 KB] Bytes per state: 4
+[t=0s, 56152 KB] Conducting best first search with reopening closed nodes, (real) bound = 2147483647
+[t=0s, 56152 KB] Initial state is a dead end.
+[t=0s, 56152 KB] Initial heuristic value for lmcut: infinity
+[t=0s, 56152 KB] pruning method: none
+[t=0s, 56152 KB] Completely explored state space -- no solution!
+[t=0s, 56152 KB] Actual search time: 0s
+[t=0s, 56152 KB] Expanded 0 state(s).
+[t=0s, 56152 KB] Reopened 0 state(s).
+[t=0s, 56152 KB] Evaluated 1 state(s).
+[t=0s, 56152 KB] Evaluations: 1
+[t=0s, 56152 KB] Generated 0 state(s).
+[t=0s, 56152 KB] Dead ends: 0 state(s).
+[t=0s, 56152 KB] Number of registered states: 1
+[t=0s, 56152 KB] Int hash set load factor: 1/1 = 1
+[t=0s, 56152 KB] Int hash set resizes: 0
+[t=0s, 56152 KB] Search time: 0s
+[t=0s, 56152 KB] Total time: 0s
+Search stopped without finding a solution.
+Peak memory: 56152 KB
+Remove intermediate file output.sas
+search exit code: 12
+
+Driver aborting after search
