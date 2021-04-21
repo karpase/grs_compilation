@@ -4,57 +4,57 @@ INFO     translator time limit: None
 INFO     translator memory limit: None
 INFO     translator command line string: /usr/bin/python3 /home/karpase/fd/builds/release/bin/translate/translate.py new_domain.pddl new_problem.pddl --sas-file output.sas
 Parsing...
-Parsing: [0.060s CPU, 0.064s wall-clock]
-Normalizing task... [0.000s CPU, 0.002s wall-clock]
+Parsing: [0.120s CPU, 0.106s wall-clock]
+Normalizing task... [0.000s CPU, 0.003s wall-clock]
 Instantiating...
-Generating Datalog program... [0.020s CPU, 0.019s wall-clock]
+Generating Datalog program... [0.040s CPU, 0.041s wall-clock]
 Normalizing Datalog program...
-Normalizing Datalog program: [0.010s CPU, 0.004s wall-clock]
-Preparing model... [0.120s CPU, 0.122s wall-clock]
+Normalizing Datalog program: [0.010s CPU, 0.007s wall-clock]
+Preparing model... [0.220s CPU, 0.221s wall-clock]
 Generated 66 rules.
-Computing model... [0.580s CPU, 0.580s wall-clock]
+Computing model... [0.970s CPU, 0.980s wall-clock]
 16279 relevant atoms
 24828 auxiliary atoms
 41107 final queue length
 58899 total queue pushes
-Completing instantiation... [0.620s CPU, 0.622s wall-clock]
-Instantiating: [1.360s CPU, 1.361s wall-clock]
+Completing instantiation... [0.950s CPU, 0.952s wall-clock]
+Instantiating: [2.230s CPU, 2.246s wall-clock]
 Computing fact groups...
 Finding invariants...
 26 initial candidates
-Finding invariants: [0.030s CPU, 0.022s wall-clock]
-Checking invariant weight... [0.050s CPU, 0.057s wall-clock]
-Instantiating groups... [1.030s CPU, 1.031s wall-clock]
-Collecting mutex groups... [0.000s CPU, 0.005s wall-clock]
+Finding invariants: [0.020s CPU, 0.024s wall-clock]
+Checking invariant weight... [0.080s CPU, 0.083s wall-clock]
+Instantiating groups... [1.240s CPU, 1.242s wall-clock]
+Collecting mutex groups... [0.010s CPU, 0.008s wall-clock]
 Choosing groups...
 1420 uncovered facts
-Choosing groups: [0.020s CPU, 0.019s wall-clock]
-Building translation key... [0.010s CPU, 0.013s wall-clock]
-Computing fact groups: [1.220s CPU, 1.221s wall-clock]
-Building STRIPS to SAS dictionary... [0.010s CPU, 0.003s wall-clock]
-Building dictionary for full mutex groups... [0.000s CPU, 0.006s wall-clock]
+Choosing groups: [0.020s CPU, 0.025s wall-clock]
+Building translation key... [0.010s CPU, 0.009s wall-clock]
+Computing fact groups: [1.460s CPU, 1.467s wall-clock]
+Building STRIPS to SAS dictionary... [0.010s CPU, 0.004s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.008s wall-clock]
 Building mutex information...
-Building mutex information: [0.010s CPU, 0.008s wall-clock]
+Building mutex information: [0.010s CPU, 0.011s wall-clock]
 Translating task...
 Processing axioms...
 Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
 Translator axioms removed by simplifying: 0
 Computing negative axioms... [0.000s CPU, 0.000s wall-clock]
-Processing axioms: [0.030s CPU, 0.030s wall-clock]
-Translating task: [0.710s CPU, 0.705s wall-clock]
+Processing axioms: [0.040s CPU, 0.038s wall-clock]
+Translating task: [1.220s CPU, 1.229s wall-clock]
 9600 effect conditions simplified
 0 implied preconditions added
 Detecting unreachable propositions...
 0 operators removed
 0 axioms removed
 21 propositions removed
-Detecting unreachable propositions: [0.370s CPU, 0.373s wall-clock]
+Detecting unreachable propositions: [0.680s CPU, 0.677s wall-clock]
 Reordering and filtering variables...
 1416 of 1417 variables necessary.
 1408 of 1413 mutex groups necessary.
 6004 of 6005 operators necessary.
 0 of 0 axiom rules necessary.
-Reordering and filtering variables: [0.710s CPU, 0.709s wall-clock]
+Reordering and filtering variables: [0.980s CPU, 0.964s wall-clock]
 Translator variables: 1416
 Translator derived variables: 0
 Translator facts: 4232
@@ -65,8 +65,8 @@ Translator operators: 6004
 Translator axioms: 0
 Translator task size: 72083
 Translator peak memory: 93004 KB
-Writing output... [0.200s CPU, 0.205s wall-clock]
-Done! [4.680s CPU, 4.685s wall-clock]
+Writing output... [0.260s CPU, 0.273s wall-clock]
+Done! [7.030s CPU, 7.035s wall-clock]
 translate exit code: 0
 
 INFO     Running search (release).
@@ -75,68 +75,68 @@ INFO     search time limit: None
 INFO     search memory limit: None
 INFO     search command line string: /home/karpase/fd/builds/release/bin/downward --search 'astar(lmcut())' --internal-plan-file sas_plan < output.sas
 [t=0s, 55888 KB] reading input...
-[t=0.0593235s, 58960 KB] done reading input!
-[t=0.069351s, 61504 KB] Initializing landmark cut heuristic...
-[t=0.069351s, 61504 KB] Building successor generator...done!
-[t=0.0792841s, 62712 KB] peak memory difference for successor generator creation: 1208 KB
-[t=0.0792841s, 62712 KB] time for successor generation creation: 0.0099331s
-[t=0.0792841s, 62712 KB] Variables: 1416
-[t=0.0792841s, 62712 KB] FactPairs: 4232
-[t=0.0792841s, 62712 KB] Bytes per state: 184
-[t=0.0792841s, 62712 KB] Conducting best first search with reopening closed nodes, (real) bound = 2147483647
-[t=0.0993241s, 62712 KB] New best heuristic value for lmcut: 36
-[t=0.0993241s, 62712 KB] g=0, 1 evaluated, 0 expanded
-[t=0.0993241s, 62712 KB] f = 36, 1 evaluated, 0 expanded
-[t=0.0993241s, 62712 KB] Initial heuristic value for lmcut: 36
-[t=0.0993241s, 62712 KB] pruning method: none
-[t=0.159295s, 62712 KB] New best heuristic value for lmcut: 35
-[t=0.159295s, 62712 KB] g=1, 3 evaluated, 1 expanded
-[t=0.329255s, 62712 KB] New best heuristic value for lmcut: 34
-[t=0.329255s, 62712 KB] g=2, 10 evaluated, 3 expanded
-[t=0.409237s, 62712 KB] New best heuristic value for lmcut: 33
-[t=0.409237s, 62712 KB] g=3, 14 evaluated, 4 expanded
-[t=0.459224s, 62712 KB] New best heuristic value for lmcut: 32
-[t=0.459224s, 62712 KB] g=4, 16 evaluated, 5 expanded
-[t=0.539221s, 62712 KB] f = 37, 20 evaluated, 6 expanded
-[t=0.589221s, 62712 KB] New best heuristic value for lmcut: 31
-[t=0.589221s, 62712 KB] g=6, 22 evaluated, 7 expanded
-[t=0.639222s, 62712 KB] New best heuristic value for lmcut: 30
-[t=0.639222s, 62712 KB] g=7, 24 evaluated, 8 expanded
-[t=1.04922s, 62712 KB] f = 38, 41 evaluated, 16 expanded
-[t=1.37922s, 62712 KB] f = 39, 56 evaluated, 22 expanded
-[t=1.84914s, 62712 KB] f = 40, 78 evaluated, 31 expanded
-[t=2.21909s, 62712 KB] f = 41, 93 evaluated, 39 expanded
-[t=2.88895s, 62712 KB] f = 42, 123 evaluated, 51 expanded
-[t=3.53894s, 62712 KB] f = 43, 152 evaluated, 64 expanded
-[t=4.36881s, 62712 KB] f = 44, 192 evaluated, 82 expanded
-[t=5.33878s, 62712 KB] f = 45, 239 evaluated, 105 expanded
-[t=5.41878s, 62712 KB] New best heuristic value for lmcut: 29
-[t=5.41878s, 62712 KB] g=16, 244 evaluated, 107 expanded
-[t=6.25875s, 62712 KB] f = 46, 283 evaluated, 128 expanded
-[t=6.98862s, 62712 KB] f = 47, 316 evaluated, 147 expanded
-[t=7.57862s, 62712 KB] f = 48, 346 evaluated, 162 expanded
-[t=8.57861s, 62712 KB] f = 49, 395 evaluated, 184 expanded
-[t=9.4986s, 62712 KB] f = 50, 450 evaluated, 214 expanded, 2 reopened
-[t=9.91863s, 62712 KB] f = 51, 478 evaluated, 227 expanded, 2 reopened
-[t=10.8585s, 62712 KB] f = 52, 533 evaluated, 253 expanded, 2 reopened
-[t=11.3285s, 62712 KB] f = 53, 562 evaluated, 267 expanded, 2 reopened
-[t=11.9285s, 62712 KB] f = 54, 595 evaluated, 288 expanded, 2 reopened
-[t=12.1985s, 62712 KB] f = 55, 610 evaluated, 298 expanded, 2 reopened
-[t=12.5385s, 62712 KB] f = 56, 628 evaluated, 310 expanded, 2 reopened
-[t=12.7685s, 62712 KB] f = 57, 641 evaluated, 316 expanded, 2 reopened
-[t=12.9286s, 62712 KB] f = 58, 650 evaluated, 321 expanded, 2 reopened
-[t=13.2185s, 62712 KB] f = 59, 666 evaluated, 329 expanded, 2 reopened
-[t=13.3685s, 62712 KB] f = 60, 674 evaluated, 333 expanded, 2 reopened
-[t=13.6085s, 62712 KB] f = 61, 687 evaluated, 341 expanded, 2 reopened
-[t=13.7185s, 62712 KB] f = 62, 692 evaluated, 345 expanded, 2 reopened
-[t=13.8385s, 62712 KB] f = 63, 698 evaluated, 349 expanded, 2 reopened
-[t=13.8985s, 62712 KB] f = 64, 701 evaluated, 351 expanded, 2 reopened
-[t=13.9385s, 62712 KB] f = 65, 703 evaluated, 353 expanded, 2 reopened
-[t=13.9585s, 62712 KB] f = 9750020, 704 evaluated, 354 expanded, 2 reopened
-[t=15.2185s, 62712 KB] New best heuristic value for lmcut: 0
-[t=15.2185s, 62712 KB] g=9750020, 950 evaluated, 397 expanded, 2 reopened
-[t=15.2285s, 62712 KB] Solution found!
-[t=15.2285s, 62712 KB] Actual search time: 15.1292s
+[t=0.077636s, 58960 KB] done reading input!
+[t=0.0876088s, 61504 KB] Initializing landmark cut heuristic...
+[t=0.0876088s, 61504 KB] Building successor generator...done!
+[t=0.0976098s, 62712 KB] peak memory difference for successor generator creation: 1208 KB
+[t=0.0976098s, 62712 KB] time for successor generation creation: 0.010001s
+[t=0.0976098s, 62712 KB] Variables: 1416
+[t=0.0976098s, 62712 KB] FactPairs: 4232
+[t=0.0976098s, 62712 KB] Bytes per state: 184
+[t=0.0976098s, 62712 KB] Conducting best first search with reopening closed nodes, (real) bound = 2147483647
+[t=0.137582s, 62712 KB] New best heuristic value for lmcut: 36
+[t=0.137582s, 62712 KB] g=0, 1 evaluated, 0 expanded
+[t=0.137582s, 62712 KB] f = 36, 1 evaluated, 0 expanded
+[t=0.137582s, 62712 KB] Initial heuristic value for lmcut: 36
+[t=0.137582s, 62712 KB] pruning method: none
+[t=0.298863s, 62712 KB] New best heuristic value for lmcut: 35
+[t=0.298863s, 62712 KB] g=1, 3 evaluated, 1 expanded
+[t=0.697586s, 62712 KB] New best heuristic value for lmcut: 34
+[t=0.697586s, 62712 KB] g=2, 10 evaluated, 3 expanded
+[t=0.917598s, 62712 KB] New best heuristic value for lmcut: 33
+[t=0.917598s, 62712 KB] g=3, 14 evaluated, 4 expanded
+[t=1.03759s, 62712 KB] New best heuristic value for lmcut: 32
+[t=1.03759s, 62712 KB] g=4, 16 evaluated, 5 expanded
+[t=1.2576s, 62712 KB] f = 37, 20 evaluated, 6 expanded
+[t=1.40758s, 62712 KB] New best heuristic value for lmcut: 31
+[t=1.40758s, 62712 KB] g=6, 22 evaluated, 7 expanded
+[t=1.49759s, 62712 KB] New best heuristic value for lmcut: 30
+[t=1.49759s, 62712 KB] g=7, 24 evaluated, 8 expanded
+[t=2.48777s, 62712 KB] f = 38, 41 evaluated, 16 expanded
+[t=3.39755s, 62712 KB] f = 39, 56 evaluated, 22 expanded
+[t=4.37754s, 62712 KB] f = 40, 78 evaluated, 31 expanded
+[t=4.98755s, 62712 KB] f = 41, 93 evaluated, 39 expanded
+[t=6.28754s, 62712 KB] f = 42, 123 evaluated, 51 expanded
+[t=8.01754s, 62712 KB] f = 43, 152 evaluated, 64 expanded
+[t=10.0475s, 62712 KB] f = 44, 192 evaluated, 82 expanded
+[t=11.8975s, 62712 KB] f = 45, 239 evaluated, 105 expanded
+[t=12.1376s, 62712 KB] New best heuristic value for lmcut: 29
+[t=12.1376s, 62712 KB] g=16, 244 evaluated, 107 expanded
+[t=14.4679s, 62712 KB] f = 46, 283 evaluated, 128 expanded
+[t=16.3275s, 62712 KB] f = 47, 316 evaluated, 147 expanded
+[t=17.6375s, 62712 KB] f = 48, 346 evaluated, 162 expanded
+[t=19.5175s, 62712 KB] f = 49, 395 evaluated, 184 expanded
+[t=22.4274s, 62712 KB] f = 50, 450 evaluated, 214 expanded, 2 reopened
+[t=23.3874s, 62712 KB] f = 51, 478 evaluated, 227 expanded, 2 reopened
+[t=25.4975s, 62712 KB] f = 52, 533 evaluated, 253 expanded, 2 reopened
+[t=26.4574s, 62712 KB] f = 53, 562 evaluated, 267 expanded, 2 reopened
+[t=27.7574s, 62712 KB] f = 54, 595 evaluated, 288 expanded, 2 reopened
+[t=28.2674s, 62712 KB] f = 55, 610 evaluated, 298 expanded, 2 reopened
+[t=28.9974s, 62712 KB] f = 56, 628 evaluated, 310 expanded, 2 reopened
+[t=29.4274s, 62712 KB] f = 57, 641 evaluated, 316 expanded, 2 reopened
+[t=29.6974s, 62712 KB] f = 58, 650 evaluated, 321 expanded, 2 reopened
+[t=30.2574s, 62712 KB] f = 59, 666 evaluated, 329 expanded, 2 reopened
+[t=30.5774s, 62712 KB] f = 60, 674 evaluated, 333 expanded, 2 reopened
+[t=31.0374s, 62712 KB] f = 61, 687 evaluated, 341 expanded, 2 reopened
+[t=31.1874s, 62712 KB] f = 62, 692 evaluated, 345 expanded, 2 reopened
+[t=31.4074s, 62712 KB] f = 63, 698 evaluated, 349 expanded, 2 reopened
+[t=31.6174s, 62712 KB] f = 64, 701 evaluated, 351 expanded, 2 reopened
+[t=31.6874s, 62712 KB] f = 65, 703 evaluated, 353 expanded, 2 reopened
+[t=31.7174s, 62712 KB] f = 9750020, 704 evaluated, 354 expanded, 2 reopened
+[t=34.0274s, 62712 KB] New best heuristic value for lmcut: 0
+[t=34.0274s, 62712 KB] g=9750020, 950 evaluated, 397 expanded, 2 reopened
+[t=34.0474s, 62712 KB] Solution found!
+[t=34.0474s, 62712 KB] Actual search time: 33.9098s
 gglobal_move p0 c0_8 c1_8 (1)
 gglobal_move p0 c1_8 c2_8 (1)
 gglobal_move p0 c2_8 c2_9 (1)
@@ -199,23 +199,23 @@ g3_move p0 c5_8 c5_7 (250000)
 g3_move p0 c5_7 c5_6 (250000)
 g3_move p0 c5_6 c5_5 (250000)
 g3_move p0 c5_5 c4_5 (250000)
-[t=15.2285s, 62712 KB] Plan length: 62 step(s).
-[t=15.2285s, 62712 KB] Plan cost: 9750020
-[t=15.2285s, 62712 KB] Expanded 398 state(s).
-[t=15.2285s, 62712 KB] Reopened 2 state(s).
-[t=15.2285s, 62712 KB] Evaluated 957 state(s).
-[t=15.2285s, 62712 KB] Evaluations: 957
-[t=15.2285s, 62712 KB] Generated 1910 state(s).
-[t=15.2285s, 62712 KB] Dead ends: 0 state(s).
-[t=15.2285s, 62712 KB] Expanded until last jump: 354 state(s).
-[t=15.2285s, 62712 KB] Reopened until last jump: 2 state(s).
-[t=15.2285s, 62712 KB] Evaluated until last jump: 704 state(s).
-[t=15.2285s, 62712 KB] Generated until last jump: 1561 state(s).
-[t=15.2285s, 62712 KB] Number of registered states: 957
-[t=15.2285s, 62712 KB] Int hash set load factor: 957/1024 = 0.93457
-[t=15.2285s, 62712 KB] Int hash set resizes: 10
-[t=15.2285s, 62712 KB] Search time: 15.1492s
-[t=15.2285s, 62712 KB] Total time: 15.2285s
+[t=34.0474s, 62712 KB] Plan length: 62 step(s).
+[t=34.0474s, 62712 KB] Plan cost: 9750020
+[t=34.0474s, 62712 KB] Expanded 398 state(s).
+[t=34.0474s, 62712 KB] Reopened 2 state(s).
+[t=34.0474s, 62712 KB] Evaluated 957 state(s).
+[t=34.0474s, 62712 KB] Evaluations: 957
+[t=34.0474s, 62712 KB] Generated 1910 state(s).
+[t=34.0474s, 62712 KB] Dead ends: 0 state(s).
+[t=34.0474s, 62712 KB] Expanded until last jump: 354 state(s).
+[t=34.0474s, 62712 KB] Reopened until last jump: 2 state(s).
+[t=34.0474s, 62712 KB] Evaluated until last jump: 704 state(s).
+[t=34.0474s, 62712 KB] Generated until last jump: 1561 state(s).
+[t=34.0474s, 62712 KB] Number of registered states: 957
+[t=34.0474s, 62712 KB] Int hash set load factor: 957/1024 = 0.93457
+[t=34.0474s, 62712 KB] Int hash set resizes: 10
+[t=34.0474s, 62712 KB] Search time: 33.9498s
+[t=34.0474s, 62712 KB] Total time: 34.0474s
 Solution found.
 Peak memory: 62712 KB
 Remove intermediate file output.sas

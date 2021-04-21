@@ -9,20 +9,20 @@ Normalizing task... [0.000s CPU, 0.000s wall-clock]
 Instantiating...
 Generating Datalog program... [0.000s CPU, 0.000s wall-clock]
 Normalizing Datalog program...
-Normalizing Datalog program: [0.000s CPU, 0.001s wall-clock]
+Normalizing Datalog program: [0.000s CPU, 0.002s wall-clock]
 Preparing model... [0.000s CPU, 0.001s wall-clock]
 Generated 23 rules.
-Computing model... [0.000s CPU, 0.001s wall-clock]
+Computing model... [0.010s CPU, 0.002s wall-clock]
 42 relevant atoms
 52 auxiliary atoms
 94 final queue length
 127 total queue pushes
 Completing instantiation... [0.000s CPU, 0.001s wall-clock]
-Instantiating: [0.020s CPU, 0.004s wall-clock]
+Instantiating: [0.010s CPU, 0.007s wall-clock]
 Computing fact groups...
 Finding invariants...
 8 initial candidates
-Finding invariants: [0.000s CPU, 0.002s wall-clock]
+Finding invariants: [0.000s CPU, 0.003s wall-clock]
 Checking invariant weight... [0.000s CPU, 0.000s wall-clock]
 Instantiating groups... [0.000s CPU, 0.000s wall-clock]
 Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
@@ -66,7 +66,7 @@ Translator axioms: 0
 Translator task size: 110
 Translator peak memory: 42480 KB
 Writing output... [0.000s CPU, 0.001s wall-clock]
-Done! [0.020s CPU, 0.011s wall-clock]
+Done! [0.010s CPU, 0.015s wall-clock]
 translate exit code: 0
 
 INFO     Running search (release).

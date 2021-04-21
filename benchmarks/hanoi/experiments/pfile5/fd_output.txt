@@ -4,21 +4,21 @@ INFO     translator time limit: None
 INFO     translator memory limit: None
 INFO     translator command line string: /usr/bin/python3 /home/karpase/fd/builds/release/bin/translate/translate.py new_domain.pddl new_problem.pddl --sas-file output.sas
 Parsing...
-Parsing: [0.000s CPU, 0.004s wall-clock]
-Normalizing task... [0.000s CPU, 0.000s wall-clock]
+Parsing: [0.000s CPU, 0.002s wall-clock]
+Normalizing task... [0.020s CPU, 0.000s wall-clock]
 Instantiating...
 Generating Datalog program... [0.000s CPU, 0.000s wall-clock]
 Normalizing Datalog program...
-Normalizing Datalog program: [0.000s CPU, 0.002s wall-clock]
-Preparing model... [0.010s CPU, 0.001s wall-clock]
+Normalizing Datalog program: [0.000s CPU, 0.001s wall-clock]
+Preparing model... [0.000s CPU, 0.001s wall-clock]
 Generated 23 rules.
-Computing model... [0.010s CPU, 0.011s wall-clock]
+Computing model... [0.010s CPU, 0.009s wall-clock]
 454 relevant atoms
 572 auxiliary atoms
 1026 final queue length
 1729 total queue pushes
-Completing instantiation... [0.020s CPU, 0.022s wall-clock]
-Instantiating: [0.040s CPU, 0.036s wall-clock]
+Completing instantiation... [0.020s CPU, 0.021s wall-clock]
+Instantiating: [0.030s CPU, 0.032s wall-clock]
 Computing fact groups...
 Finding invariants...
 8 initial candidates
@@ -41,20 +41,20 @@ Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
 Translator axioms removed by simplifying: 0
 Computing negative axioms... [0.000s CPU, 0.000s wall-clock]
 Processing axioms: [0.000s CPU, 0.001s wall-clock]
-Translating task: [0.020s CPU, 0.019s wall-clock]
+Translating task: [0.020s CPU, 0.022s wall-clock]
 264 effect conditions simplified
 0 implied preconditions added
 Detecting unreachable propositions...
 0 operators removed
 0 axioms removed
 6 propositions removed
-Detecting unreachable propositions: [0.010s CPU, 0.007s wall-clock]
+Detecting unreachable propositions: [0.020s CPU, 0.013s wall-clock]
 Reordering and filtering variables...
 14 of 15 variables necessary.
 8 of 14 mutex groups necessary.
 265 of 266 operators necessary.
 0 of 0 axiom rules necessary.
-Reordering and filtering variables: [0.000s CPU, 0.004s wall-clock]
+Reordering and filtering variables: [0.000s CPU, 0.005s wall-clock]
 Translator variables: 14
 Translator derived variables: 0
 Translator facts: 47
@@ -65,8 +65,8 @@ Translator operators: 265
 Translator axioms: 0
 Translator task size: 2174
 Translator peak memory: 44016 KB
-Writing output... [0.010s CPU, 0.005s wall-clock]
-Done! [0.080s CPU, 0.081s wall-clock]
+Writing output... [0.010s CPU, 0.006s wall-clock]
+Done! [0.100s CPU, 0.085s wall-clock]
 translate exit code: 0
 
 INFO     Running search (release).
@@ -100,33 +100,33 @@ INFO     search command line string: /home/karpase/fd/builds/release/bin/downwar
 [t=0s, 56284 KB] f = 10, 54 evaluated, 21 expanded
 [t=0s, 56284 KB] f = 11, 74 evaluated, 27 expanded
 [t=0s, 56284 KB] f = 12, 108 evaluated, 40 expanded
-[t=0s, 56284 KB] f = 13, 128 evaluated, 52 expanded
-[t=0s, 56284 KB] f = 14, 142 evaluated, 59 expanded
-[t=0s, 56284 KB] f = 15, 165 evaluated, 66 expanded
-[t=0s, 56284 KB] f = 16, 184 evaluated, 72 expanded
-[t=0.0100056s, 56284 KB] f = 17, 214 evaluated, 84 expanded
-[t=0.0100056s, 56284 KB] f = 18, 249 evaluated, 99 expanded
-[t=0.0100056s, 56284 KB] f = 19, 282 evaluated, 111 expanded
-[t=0.0100056s, 56284 KB] f = 20, 342 evaluated, 136 expanded, 1 reopened
-[t=0.0100056s, 56284 KB] f = 21, 375 evaluated, 159 expanded, 1 reopened
-[t=0.0100056s, 56284 KB] f = 22, 411 evaluated, 176 expanded, 1 reopened
-[t=0.0100056s, 56284 KB] f = 23, 432 evaluated, 184 expanded, 1 reopened
-[t=0.0100056s, 56284 KB] f = 24, 445 evaluated, 191 expanded, 1 reopened
-[t=0.0100056s, 56284 KB] f = 25, 461 evaluated, 200 expanded, 1 reopened
-[t=0.0100056s, 56284 KB] f = 26, 498 evaluated, 212 expanded, 1 reopened
-[t=0.0100056s, 56284 KB] f = 27, 544 evaluated, 228 expanded, 1 reopened
-[t=0.0100056s, 56284 KB] f = 28, 593 evaluated, 249 expanded, 1 reopened
-[t=0.0100056s, 56284 KB] f = 29, 637 evaluated, 273 expanded, 1 reopened
-[t=0.0199846s, 56284 KB] f = 30, 679 evaluated, 290 expanded, 1 reopened
-[t=0.0199846s, 56284 KB] New best heuristic value for lmcut: 2
-[t=0.0199846s, 56284 KB] g=28, 688 evaluated, 293 expanded, 1 reopened
-[t=0.0199846s, 56284 KB] f = 31, 723 evaluated, 306 expanded, 1 reopened
-[t=0.0199846s, 56284 KB] New best heuristic value for lmcut: 1
-[t=0.0199846s, 56284 KB] g=30, 730 evaluated, 309 expanded, 1 reopened
-[t=0.0199846s, 56284 KB] New best heuristic value for lmcut: 0
-[t=0.0199846s, 56284 KB] g=31, 734 evaluated, 310 expanded, 1 reopened
-[t=0.0199846s, 56284 KB] Solution found!
-[t=0.0199846s, 56284 KB] Actual search time: 0.0199846s
+[t=0.0100208s, 56284 KB] f = 13, 128 evaluated, 52 expanded
+[t=0.0100208s, 56284 KB] f = 14, 142 evaluated, 59 expanded
+[t=0.0100208s, 56284 KB] f = 15, 165 evaluated, 66 expanded
+[t=0.0100208s, 56284 KB] f = 16, 184 evaluated, 72 expanded
+[t=0.0100208s, 56284 KB] f = 17, 214 evaluated, 84 expanded
+[t=0.0100208s, 56284 KB] f = 18, 249 evaluated, 99 expanded
+[t=0.0100208s, 56284 KB] f = 19, 282 evaluated, 111 expanded
+[t=0.0100208s, 56284 KB] f = 20, 342 evaluated, 136 expanded, 1 reopened
+[t=0.0100208s, 56284 KB] f = 21, 375 evaluated, 159 expanded, 1 reopened
+[t=0.0100208s, 56284 KB] f = 22, 411 evaluated, 176 expanded, 1 reopened
+[t=0.0100208s, 56284 KB] f = 23, 432 evaluated, 184 expanded, 1 reopened
+[t=0.0100208s, 56284 KB] f = 24, 445 evaluated, 191 expanded, 1 reopened
+[t=0.0100208s, 56284 KB] f = 25, 461 evaluated, 200 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] f = 26, 498 evaluated, 212 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] f = 27, 544 evaluated, 228 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] f = 28, 593 evaluated, 249 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] f = 29, 637 evaluated, 273 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] f = 30, 679 evaluated, 290 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] New best heuristic value for lmcut: 2
+[t=0.0200272s, 56284 KB] g=28, 688 evaluated, 293 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] f = 31, 723 evaluated, 306 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] New best heuristic value for lmcut: 1
+[t=0.0200272s, 56284 KB] g=30, 730 evaluated, 309 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] New best heuristic value for lmcut: 0
+[t=0.0200272s, 56284 KB] g=31, 734 evaluated, 310 expanded, 1 reopened
+[t=0.0200272s, 56284 KB] Solution found!
+[t=0.0200272s, 56284 KB] Actual search time: 0.0200272s
 gglobal_move d1 d2 peg3 (1)
 gglobal_move d2 d3 peg2 (1)
 gglobal_move d1 peg3 d2 (1)
@@ -158,23 +158,23 @@ gglobal_move d3 peg1 d4 (1)
 gglobal_move d1 d2 peg1 (1)
 gglobal_move d2 peg2 d3 (1)
 gglobal_move d1 peg1 d2 (1)
-[t=0.0199846s, 56284 KB] Plan length: 31 step(s).
-[t=0.0199846s, 56284 KB] Plan cost: 31
-[t=0.0199846s, 56284 KB] Expanded 311 state(s).
-[t=0.0199846s, 56284 KB] Reopened 1 state(s).
-[t=0.0199846s, 56284 KB] Evaluated 736 state(s).
-[t=0.0199846s, 56284 KB] Evaluations: 736
-[t=0.0199846s, 56284 KB] Generated 1838 state(s).
-[t=0.0199846s, 56284 KB] Dead ends: 401 state(s).
-[t=0.0199846s, 56284 KB] Expanded until last jump: 306 state(s).
-[t=0.0199846s, 56284 KB] Reopened until last jump: 1 state(s).
-[t=0.0199846s, 56284 KB] Evaluated until last jump: 723 state(s).
-[t=0.0199846s, 56284 KB] Generated until last jump: 1814 state(s).
-[t=0.0199846s, 56284 KB] Number of registered states: 736
-[t=0.0199846s, 56284 KB] Int hash set load factor: 736/1024 = 0.71875
-[t=0.0199846s, 56284 KB] Int hash set resizes: 10
-[t=0.0199846s, 56284 KB] Search time: 0.0199846s
-[t=0.0199846s, 56284 KB] Total time: 0.0199846s
+[t=0.0200272s, 56284 KB] Plan length: 31 step(s).
+[t=0.0200272s, 56284 KB] Plan cost: 31
+[t=0.0200272s, 56284 KB] Expanded 311 state(s).
+[t=0.0200272s, 56284 KB] Reopened 1 state(s).
+[t=0.0200272s, 56284 KB] Evaluated 736 state(s).
+[t=0.0200272s, 56284 KB] Evaluations: 736
+[t=0.0200272s, 56284 KB] Generated 1838 state(s).
+[t=0.0200272s, 56284 KB] Dead ends: 401 state(s).
+[t=0.0200272s, 56284 KB] Expanded until last jump: 306 state(s).
+[t=0.0200272s, 56284 KB] Reopened until last jump: 1 state(s).
+[t=0.0200272s, 56284 KB] Evaluated until last jump: 723 state(s).
+[t=0.0200272s, 56284 KB] Generated until last jump: 1814 state(s).
+[t=0.0200272s, 56284 KB] Number of registered states: 736
+[t=0.0200272s, 56284 KB] Int hash set load factor: 736/1024 = 0.71875
+[t=0.0200272s, 56284 KB] Int hash set resizes: 10
+[t=0.0200272s, 56284 KB] Search time: 0.0200272s
+[t=0.0200272s, 56284 KB] Total time: 0.0200272s
 Solution found.
 Peak memory: 56284 KB
 Remove intermediate file output.sas

@@ -4,12 +4,12 @@ INFO     translator time limit: None
 INFO     translator memory limit: None
 INFO     translator command line string: /usr/bin/python3 /home/karpase/fd/builds/release/bin/translate/translate.py new_domain.pddl new_problem.pddl --sas-file output.sas
 Parsing...
-Parsing: [0.010s CPU, 0.001s wall-clock]
+Parsing: [0.000s CPU, 0.001s wall-clock]
 Normalizing task... [0.000s CPU, 0.000s wall-clock]
 Instantiating...
 Generating Datalog program... [0.000s CPU, 0.000s wall-clock]
 Normalizing Datalog program...
-Normalizing Datalog program: [0.000s CPU, 0.002s wall-clock]
+Normalizing Datalog program: [0.020s CPU, 0.002s wall-clock]
 Preparing model... [0.000s CPU, 0.001s wall-clock]
 Generated 23 rules.
 Computing model... [0.000s CPU, 0.004s wall-clock]
@@ -17,8 +17,8 @@ Computing model... [0.000s CPU, 0.004s wall-clock]
 248 auxiliary atoms
 440 final queue length
 706 total queue pushes
-Completing instantiation... [0.010s CPU, 0.005s wall-clock]
-Instantiating: [0.010s CPU, 0.013s wall-clock]
+Completing instantiation... [0.010s CPU, 0.006s wall-clock]
+Instantiating: [0.030s CPU, 0.014s wall-clock]
 Computing fact groups...
 Finding invariants...
 8 initial candidates
@@ -30,7 +30,7 @@ Choosing groups...
 7 uncovered facts
 Choosing groups: [0.000s CPU, 0.000s wall-clock]
 Building translation key... [0.000s CPU, 0.000s wall-clock]
-Computing fact groups: [0.000s CPU, 0.003s wall-clock]
+Computing fact groups: [0.000s CPU, 0.002s wall-clock]
 Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
 Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
 Building mutex information...
@@ -41,14 +41,14 @@ Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
 Translator axioms removed by simplifying: 0
 Computing negative axioms... [0.000s CPU, 0.000s wall-clock]
 Processing axioms: [0.000s CPU, 0.000s wall-clock]
-Translating task: [0.010s CPU, 0.007s wall-clock]
+Translating task: [0.000s CPU, 0.006s wall-clock]
 94 effect conditions simplified
 0 implied preconditions added
 Detecting unreachable propositions...
 0 operators removed
 0 axioms removed
 4 propositions removed
-Detecting unreachable propositions: [0.000s CPU, 0.004s wall-clock]
+Detecting unreachable propositions: [0.010s CPU, 0.003s wall-clock]
 Reordering and filtering variables...
 10 of 11 variables necessary.
 6 of 10 mutex groups necessary.
@@ -65,8 +65,8 @@ Translator operators: 95
 Translator axioms: 0
 Translator task size: 798
 Translator peak memory: 42992 KB
-Writing output... [0.010s CPU, 0.002s wall-clock]
-Done! [0.040s CPU, 0.032s wall-clock]
+Writing output... [0.000s CPU, 0.002s wall-clock]
+Done! [0.040s CPU, 0.030s wall-clock]
 translate exit code: 0
 
 INFO     Running search (release).

@@ -4,6 +4,142 @@ INFO     translator time limit: None
 INFO     translator memory limit: None
 INFO     translator command line string: /usr/bin/python3 /home/karpase/fd/builds/release/bin/translate/translate.py new_domain.pddl new_problem.pddl --sas-file output.sas
 Parsing...
-translate exit code: 30
+Parsing: [0.000s CPU, 0.006s wall-clock]
+Normalizing task... [0.000s CPU, 0.001s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.001s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.010s CPU, 0.006s wall-clock]
+Preparing model... [0.000s CPU, 0.003s wall-clock]
+Generated 94 rules.
+Computing model... [0.040s CPU, 0.037s wall-clock]
+836 relevant atoms
+872 auxiliary atoms
+1708 final queue length
+2646 total queue pushes
+Completing instantiation... [0.050s CPU, 0.047s wall-clock]
+Instantiating: [0.100s CPU, 0.094s wall-clock]
+Computing fact groups...
+Finding invariants...
+24 initial candidates
+Finding invariants: [0.000s CPU, 0.005s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.010s CPU, 0.006s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+2 uncovered facts
+Choosing groups: [0.000s CPU, 0.002s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.010s CPU, 0.015s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Translator axioms removed by simplifying: 0
+Computing negative axioms... [0.000s CPU, 0.000s wall-clock]
+Processing axioms: [0.010s CPU, 0.002s wall-clock]
+Translating task: [0.040s CPU, 0.041s wall-clock]
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+7 propositions removed
+Detecting unreachable propositions: [0.020s CPU, 0.020s wall-clock]
+Reordering and filtering variables...
+52 of 53 variables necessary.
+44 of 51 mutex groups necessary.
+536 of 537 operators necessary.
+0 of 0 axiom rules necessary.
+Reordering and filtering variables: [0.010s CPU, 0.008s wall-clock]
+Translator variables: 52
+Translator derived variables: 0
+Translator facts: 232
+Translator goal facts: 4
+Translator mutex groups: 44
+Translator total mutex groups size: 176
+Translator operators: 536
+Translator axioms: 0
+Translator task size: 4902
+Translator peak memory: 45408 KB
+Writing output... [0.020s CPU, 0.019s wall-clock]
+Done! [0.200s CPU, 0.206s wall-clock]
+translate exit code: 0
 
-Driver aborting after translate
+INFO     Running search (release).
+INFO     search stdin: output.sas
+INFO     search time limit: None
+INFO     search memory limit: None
+INFO     search command line string: /home/karpase/fd/builds/release/bin/downward --search 'astar(lmcut())' --internal-plan-file sas_plan < output.sas
+[t=0s, 55888 KB] reading input...
+[t=0s, 56020 KB] done reading input!
+[t=0s, 56592 KB] Initializing landmark cut heuristic...
+[t=0s, 56592 KB] Building successor generator...done!
+[t=0s, 56592 KB] peak memory difference for successor generator creation: 0 KB
+[t=0s, 56592 KB] time for successor generation creation: 0s
+[t=0s, 56592 KB] Variables: 52
+[t=0s, 56592 KB] FactPairs: 232
+[t=0s, 56592 KB] Bytes per state: 16
+[t=0s, 56592 KB] Conducting best first search with reopening closed nodes, (real) bound = 2147483647
+[t=0s, 56592 KB] New best heuristic value for lmcut: 8
+[t=0s, 56592 KB] g=0, 1 evaluated, 0 expanded
+[t=0s, 56592 KB] f = 8, 1 evaluated, 0 expanded
+[t=0s, 56592 KB] Initial heuristic value for lmcut: 8
+[t=0s, 56592 KB] pruning method: none
+[t=0.0100003s, 56592 KB] New best heuristic value for lmcut: 7
+[t=0.0100003s, 56592 KB] g=1, 14 evaluated, 1 expanded
+[t=0.0300251s, 56592 KB] f = 9, 179 evaluated, 7 expanded
+[t=0.0300251s, 56592 KB] New best heuristic value for lmcut: 6
+[t=0.0300251s, 56592 KB] g=3, 183 evaluated, 9 expanded
+[t=0.0300251s, 56592 KB] New best heuristic value for lmcut: 5
+[t=0.0300251s, 56592 KB] g=4, 185 evaluated, 10 expanded
+[t=0.109962s, 56592 KB] f = 10, 723 evaluated, 101 expanded
+[t=0.119961s, 56592 KB] New best heuristic value for lmcut: 4
+[t=0.119961s, 56592 KB] g=6, 771 evaluated, 105 expanded
+[t=0.119961s, 56592 KB] New best heuristic value for lmcut: 3
+[t=0.119961s, 56592 KB] g=7, 811 evaluated, 106 expanded
+[t=0.230034s, 56592 KB] f = 11, 1637 evaluated, 281 expanded
+[t=0.230034s, 56592 KB] New best heuristic value for lmcut: 2
+[t=0.230034s, 56592 KB] g=9, 1643 evaluated, 283 expanded
+[t=0.230034s, 56592 KB] New best heuristic value for lmcut: 1
+[t=0.230034s, 56592 KB] g=10, 1645 evaluated, 284 expanded
+[t=0.230034s, 56592 KB] New best heuristic value for lmcut: 0
+[t=0.230034s, 56592 KB] g=11, 1651 evaluated, 285 expanded
+[t=0.230034s, 56592 KB] Solution found!
+[t=0.230034s, 56592 KB] Actual search time: 0.230034s
+gglobal_pick ball14 rooma left (1)
+gglobal_pick ball17 rooma right (1)
+gglobal_move rooma roomb (1)
+gglobal_drop ball14 roomb left (1)
+gglobal_drop ball17 roomb right (1)
+gglobal_move roomb rooma (1)
+gglobal_pick ball18 rooma left (1)
+gglobal_pick ball5 rooma right (1)
+gglobal_move rooma roomb (1)
+gglobal_drop ball18 roomb left (1)
+gglobal_drop ball5 roomb right (1)
+[t=0.230034s, 56592 KB] Plan length: 11 step(s).
+[t=0.230034s, 56592 KB] Plan cost: 11
+[t=0.230034s, 56592 KB] Expanded 286 state(s).
+[t=0.230034s, 56592 KB] Reopened 0 state(s).
+[t=0.230034s, 56592 KB] Evaluated 1651 state(s).
+[t=0.230034s, 56592 KB] Evaluations: 1651
+[t=0.230034s, 56592 KB] Generated 2639 state(s).
+[t=0.230034s, 56592 KB] Dead ends: 0 state(s).
+[t=0.230034s, 56592 KB] Expanded until last jump: 281 state(s).
+[t=0.230034s, 56592 KB] Reopened until last jump: 0 state(s).
+[t=0.230034s, 56592 KB] Evaluated until last jump: 1637 state(s).
+[t=0.230034s, 56592 KB] Generated until last jump: 2620 state(s).
+[t=0.230034s, 56592 KB] Number of registered states: 1651
+[t=0.230034s, 56592 KB] Int hash set load factor: 1651/2048 = 0.806152
+[t=0.230034s, 56592 KB] Int hash set resizes: 11
+[t=0.230034s, 56592 KB] Search time: 0.230034s
+[t=0.230034s, 56592 KB] Total time: 0.230034s
+Solution found.
+Peak memory: 56592 KB
+Remove intermediate file output.sas
+search exit code: 0
+

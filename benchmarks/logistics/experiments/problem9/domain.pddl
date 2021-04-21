@@ -64,7 +64,7 @@ airport location - place
 (:action DRIVE-TRUCK
 :parameters (?x1 - truck ?x2 - place ?x3 - place ?x4 - city)
 :precondition (and
-(not (= ?x2 ?x3))
+;(not (= ?x2 ?x3))
 (at ?x1 ?x2)
 (in-city ?x2 ?x4)
 (in-city ?x3 ?x4)
@@ -78,7 +78,7 @@ airport location - place
 (:action FLY-AIRPLANE
 :parameters (?x1 - airplane ?x2 - airport ?x3 - airport)
 :precondition (and
-(not (= ?x2 ?x3))
+;(not (= ?x2 ?x3))
 (at ?x1 ?x2)
 )
 :effect (and
