@@ -161,10 +161,16 @@ def main():
                 cost = cost_factor
             else:
                 cost = 0
+            goal_facts = []
+            for pddl_goal_fact in pddl_goals[i]:
+                mod_goal_fact = copy.deepcopy(pddl_goal_fact)
+                mod_goal_fact.name = modify_name(i, mod_goal_fact.name)
+                goal_facts.append(mod_goal_fact)
             noop = pddl.Action(
                     "noop-g"+str(i),
                     pddl.TypedArgList([]),
-                    pddl.Formula([pddl.Formula([pddl.Predicate("split", pddl.TypedArgList([]))]), pddl.Formula([pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([]))])], "and"),
+                    pddl.Formula(
+                        [pddl.Formula([pddl.Predicate("split", pddl.TypedArgList([]))]), pddl.Formula([pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([]))])] + goal_facts, "and"),
                     [pddl.Formula([pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([]))], "not"),
                      pddl.Formula([pddl.Predicate(modify_name((i + 1) % len(goals), "turn___"), pddl.TypedArgList([]))]),
                      pddl.Formula([pddl.FHead("total-cost", pddl.TypedArgList([])), pddl.ConstantNumber(cost)], "increase")
