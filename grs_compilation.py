@@ -17,7 +17,7 @@ def parse_options():
     parser.add_option('-d', '--domain-file', action='store', dest='domain_file', help='domain file')
     parser.add_option('-g', '--goals-file', action='store', dest='goals_file', help='goals file')
 
-    parser.add_option('-f', '--no-force-agent-order-after-split', action='store_false', dest='force_agent_order_after_split', help='don\'t force agent order after split', default=True)
+    #parser.add_option('-f', '--no-force-agent-order-after-split', action='store_false', dest='force_agent_order_after_split', help='don\'t force agent order after split', default=True)
     parser.add_option('-c', '--cost-factor', action='store', dest='cost_factor', help='cost factor', default=10**6, type="float")
 
     options, args = parser.parse_args()
@@ -47,7 +47,7 @@ def main():
 
     cost_factor = options.cost_factor
 
-    force_agent_order_after_split = options.force_agent_order_after_split
+    
 
     if options.state == 'centroid' or options.state == 'minimum-covering':
         split_on_goals = False
@@ -58,9 +58,11 @@ def main():
 
     
     if options.state == 'minimum-covering' or options.state == 'minimum-covering-m':
-        after_split_max = True        
+        after_split_max = True       
+        force_agent_order_after_split = False 
     elif options.state == 'centroid' or options.state == 'medoid':
         after_split_max = False
+        force_agent_order_after_split = True
 
     assert(options.plan_type == 'shortest')
 
