@@ -272,7 +272,7 @@ def main():
             if after_split_max:
                 new_act.pre.subformulas.append(pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([])))
             if options.budget > -1:
-                new_act.pre.subformulas.append(pddl.Predicate(modify_name(i, "grs_remaining_budget"), pddl.TypedArgList([pddl.TypedArg("?grs_remaining_budget-n0")])))
+                new_act.pre.subformulas.append(pddl.Predicate(modify_name(i, "grs_remaining_budget"), pddl.TypedArgList([pddl.TypedArg("?grs_remaining_budget_n0")])))
                 new_act.pre.subformulas.append(pddl.Predicate("grs_remaining_budget_next", pddl.TypedArgList([
                     pddl.TypedArg("?grs_remaining_budget_n0"),
                     pddl.TypedArg("?grs_remaining_budget_n1")        
