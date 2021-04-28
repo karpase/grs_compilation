@@ -19,6 +19,8 @@ def parse_options():
 
     #parser.add_option('-f', '--no-force-agent-order-after-split', action='store_false', dest='force_agent_order_after_split', help='don\'t force agent order after split', default=True)
     parser.add_option('-c', '--cost-factor', action='store', dest='cost_factor', help='cost factor', default=10**6, type="float")
+    parser.add_option('-b', '--budget', action='store', dest='budget', help='budget (-1 means using the turn taking compilation)', default=-1, type="int")
+
 
     options, args = parser.parse_args()
     return options
@@ -57,9 +59,16 @@ def main():
         raise Exception("Don't know how to handle state ", options.state)        
 
     
+    if options.budget > -1:
+        assert(options.state == 'minimum-covering' or options.state == 'minimum-covering-m')        
+
     if options.state == 'minimum-covering' or options.state == 'minimum-covering-m':
-        after_split_max = True       
-        force_agent_order_after_split = False 
+        if options.budget == -1:
+            after_split_max = True       
+            force_agent_order_after_split = False 
+        else:
+            after_split_max = False
+            force_agent_order_after_split = True    
     elif options.state == 'centroid' or options.state == 'medoid':
         after_split_max = False
         force_agent_order_after_split = True
@@ -76,6 +85,13 @@ def main():
 
     (dom,prob) = pddl.parseDomainAndProblem(options.domain_file, options.problem_file)
     goals, gweights = get_goals(options.goals_file)    
+
+    if options.budget > -1:
+        dom.types.args.append(pddl.TypedArg("grs_remaining_budget"))
+        for i in range(options.budget + 1):
+            prob.objects.args.append(pddl.TypedArg("grs_remaining_budget-b" + str(i),"grs_remaining_budget"))              
+        
+        
 
 
     pddl_goals = {}
@@ -96,6 +112,17 @@ def main():
     # Add the (split) predicate
     new_preds.append(pddl.Predicate("split", pddl.TypedArgList([])))
     new_preds.append(pddl.Predicate("unsplit", pddl.TypedArgList([])))
+
+
+    if options.budget > -1:
+        new_preds.append(pddl.Predicate("grs_remaining_budget_next", pddl.TypedArgList([
+            pddl.TypedArg("?n0", "grs_remaining_budget"),
+            pddl.TypedArg("?n1", "grs_remaining_budget")        
+        ])))
+        for i, g in enumerate(goals):
+            new_preds.append(pddl.Predicate(modify_name(i,"grs_remaining_budget"), pddl.TypedArgList([
+                pddl.TypedArg("?n0", "grs_remaining_budget"),                
+            ])))
 
     if force_agent_order_after_split:
         # Add the (done_i) predicates
@@ -227,7 +254,7 @@ def main():
             #create the "split" version of each action
             new_act = pddl.Action(
                 modify_name(i, act.name), 
-                act.parameters, 
+                copy.deepcopy(act.parameters), 
                 copy.deepcopy(act.pre), 
                 copy.deepcopy(act.eff)
             )
@@ -244,6 +271,13 @@ def main():
                 new_act.pre.subformulas.append(pddl.Predicate(modify_name(i-1, "done___"), pddl.TypedArgList([])))
             if after_split_max:
                 new_act.pre.subformulas.append(pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([])))
+            if options.budget > -1:
+                new_act.pre.subformulas.append(pddl.Predicate(modify_name(i, "grs_remaining_budget"), pddl.TypedArgList([pddl.TypedArg("?grs_remaining_budget-n0")])))
+                new_act.pre.subformulas.append(pddl.Predicate("grs_remaining_budget_next", pddl.TypedArgList([
+                    pddl.TypedArg("?grs_remaining_budget_n0"),
+                    pddl.TypedArg("?grs_remaining_budget_n1")        
+                ])))
+
             
             for eff_part in new_act.eff:                
                 if eff_part.is_numeric:                    
@@ -266,6 +300,15 @@ def main():
             if after_split_max:
                 new_act.eff.append(pddl.Formula([pddl.Predicate(modify_name(i, "turn___"), pddl.TypedArgList([]))], "not"))
                 new_act.eff.append(pddl.Formula([pddl.Predicate(modify_name((i + 1) % len(goals), "turn___"), pddl.TypedArgList([]))]))
+            if options.budget > -1:
+                new_act.parameters.args.append(
+                    pddl.TypedArg("?grs_remaining_budget_n0","grs_remaining_budget")
+                )
+                new_act.parameters.args.append(
+                    pddl.TypedArg("?grs_remaining_budget_n1","grs_remaining_budget")
+                )
+                new_act.eff.append(pddl.Formula([pddl.Predicate(modify_name(i, "grs_remaining_budget"), pddl.TypedArgList([pddl.TypedArg("?grs_remaining_budget_n0")]))], "not"))
+                new_act.eff.append(pddl.Formula([pddl.Predicate(modify_name(i, "grs_remaining_budget"), pddl.TypedArgList([pddl.TypedArg("?grs_remaining_budget_n1")]))]))
                         
 
     dom.actions = new_acts
@@ -279,6 +322,20 @@ def main():
         new_initial_state.append(
             pddl.Formula([pddl.Predicate(modify_name(0, "turn___"), pddl.TypedArgList([]))])
         )
+
+    if options.budget > -1:
+        for i in range(options.budget):
+            new_initial_state.append(
+                pddl.Formula([pddl.Predicate("grs_remaining_budget_next", pddl.TypedArgList([
+                    pddl.TypedArg("grs_remaining_budget-b" + str(i)),
+                    pddl.TypedArg("grs_remaining_budget-b" + str(i+1)),
+                ]))])
+            )  
+        for i, g in enumerate(goals):
+            new_initial_state.append(pddl.Formula([
+                pddl.Predicate(modify_name(i,"grs_remaining_budget"), pddl.TypedArgList([pddl.TypedArg("grs_remaining_budget-b0")]))]))
+                
+                            
 
     
     for init_f in prob.initialstate:
