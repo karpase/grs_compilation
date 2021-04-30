@@ -5,6 +5,7 @@ import optparse
 import copy
 import math
 import time
+import subprocess
 
 # We get the parameters
 def parse_options():
@@ -16,7 +17,7 @@ def parse_options():
     parser.add_option('-d', '--domain-file', action='store', dest='domain_file', help='domain file')
     parser.add_option('-g', '--goals-file', action='store', dest='goals_file', help='goals file')
     parser.add_option('-c', '--cost-factor', action='store', dest='cost_factor', help='cost factor', default=10**6, type="float")
-    parser.add_option('-f', '--fd-cmd', action='store', dest='fd_cmd', help='Fast Downward Command', default="~/fd/fast-downward.py --alias seq-opt-lmcut", type="string")
+    parser.add_option('-f', '--fd-cmd', action='store', dest='fd_cmd', help='Fast Downward Command', default="/home/karpase/fd/fast-downward.py --alias seq-opt-lmcut --search-time-limit 3600s", type="string")
     parser.add_option('-m', '--min-cover-comp', action='store', dest='min_cover_comp', help='Minimum Cover Compilation (direct/binary)', default="direct", type="string")
 
 
@@ -29,18 +30,19 @@ def call_planner(options, budget):
     print("Creating compilation for budget", budget)
 
     if budget >= 0:
-        cmd = "python3 grs_compilation.py -s " + options.state + " -d " + options.domain_file + " -p " + options.problem_file + " -g " + options.goals_file + " -c " + str(options.cost_factor) + " -b " + str(budget)
+        cmd = ["python3","grs_compilation.py", "-s", options.state, "-d",options.domain_file,"-p",options.problem_file,"-g",options.goals_file,"-c",str(options.cost_factor),"-b",str(budget)]
     else:
-        cmd = "python3 grs_compilation.py -s " + options.state + " -d " + options.domain_file + " -p " + options.problem_file + " -g " + options.goals_file + " -c " + str(options.cost_factor)
-    os.system(cmd)
+        cmd = ["python3","grs_compilation.py", "-s", options.state, "-d", options.domain_file,"-p",options.problem_file,"-g",options.goals_file,"-c",str(options.cost_factor)]
+    subprocess.check_call(cmd)
 
     print("Calling planner for budget", budget)
-    fd_cmd = options.fd_cmd + " new_domain.pddl new_problem.pddl"
-    ret = os.system(fd_cmd)
-    print("Planner returned", ret)
-    if ret == 0:
+    fd_cmd = options.fd_cmd.split() + ["new_domain.pddl", "new_problem.pddl"]
+    try:
+        ret = subprocess.check_call(fd_cmd, timeout=3600)
+        print("Planner returned", ret)
         return True
-    else:
+    except subprocess.CalledProcessError as  e:
+        print("Got", e)
         return False
 
 
