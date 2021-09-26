@@ -6,6 +6,7 @@ import copy
 import math
 import time
 import subprocess
+import tempfile
 
 # We get the parameters
 def parse_options():
@@ -21,8 +22,6 @@ def parse_options():
     parser.add_option('-m', '--min-cover-comp', action='store', dest='min_cover_comp', help='Minimum Cover Compilation (direct/binary)', default="direct", type="string")
 
 
-
-
     options, args = parser.parse_args()
     return options
 
@@ -30,9 +29,9 @@ def call_planner(options, budget):
     print("Creating compilation for budget", budget)
 
     if budget >= 0:
-        cmd = ["python3","grs_compilation.py", "-s", options.state, "-d",options.domain_file,"-p",options.problem_file,"-g",options.goals_file,"-c",str(options.cost_factor),"-b",str(budget)]
+        cmd = ["python3",os.path.join(options.orig_dir, "grs_compilation.py"), "-s", options.state, "-d",options.domain_file,"-p",options.problem_file,"-g",options.goals_file,"-c",str(options.cost_factor),"-b",str(budget)]
     else:
-        cmd = ["python3","grs_compilation.py", "-s", options.state, "-d", options.domain_file,"-p",options.problem_file,"-g",options.goals_file,"-c",str(options.cost_factor)]
+        cmd = ["python3",os.path.join(options.orig_dir, "grs_compilation.py"), "-s", options.state, "-d", options.domain_file,"-p",options.problem_file,"-g",options.goals_file,"-c",str(options.cost_factor)]
     subprocess.check_call(cmd)
 
     print("Calling planner for budget", budget)
@@ -79,6 +78,11 @@ def binary_search_minimum_covering(options):
 
 def main():
     options = parse_options()
+    options.orig_dir = os.getcwd()
+
+    tmpdirname = tempfile.TemporaryDirectory()
+    print('created temporary directory', tmpdirname)
+    os.chdir(tmpdirname.name)
 
 
     t1 = time.time()
